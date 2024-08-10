@@ -4,10 +4,10 @@ using namespace std;
 using namespace stl;
 
 int main() {
-    MyStack<int> st;
-    st.push(5);
-    st.push(387);
-    st.push(23);
+    MyStack<string> st;
+    st.push("Hellooo");
+    st.push("My Name");
+    st.push("Mohamed");
     cout<<st.top()<<endl<<endl;
     while(!st.empty()){
         cout<<st.top()<<endl;
