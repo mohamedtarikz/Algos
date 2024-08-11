@@ -52,7 +52,8 @@ int main() {
             tmp += in[i];
         }
     }
-
+    if(tmp.size() > 0)
+        v.emplace_back(tmp);
     for (auto &itr:v) {
         if (itr == "+" || itr == "-" || itr == "*" || itr == "/"){
             if(operators.empty()){
