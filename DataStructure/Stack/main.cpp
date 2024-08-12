@@ -7,25 +7,7 @@ int main() {
     string in;
     cout<<"Enter your expression: ";
     getline(cin,in);
-    MyStack<char> check;
-    for (int i = 0; i < in.size(); ++i) {
-        if(in[i] == '(')
-            check.push(in[i]);
-        else if(in[i] == ')'){
-            if(check.top() == '('){
-                check.pop();
-            }
-            else{
-                check.push(in[i]);
-            }
-        }
-    }
-    if(!check.empty()){
-        cout<<"INVALID EXPRESSION!!"<<endl;
-        return 0;
-    }
-    MyStack<string> operators;
-    vector<string> ans;
+
     map<string,int> priority;
     priority["+"] = 1;
     priority["-"] = 1;
@@ -54,41 +36,82 @@ int main() {
     }
     if(tmp.size() > 0)
         v.emplace_back(tmp);
-    for (auto &itr:v) {
-        if (itr == "+" || itr == "-" || itr == "*" || itr == "/"){
-            if(operators.empty()){
-                operators.push(itr);
+    cout<<"1- Infix to Postfix"<<endl;
+    cout<<"2- Postfix to Infix"<<endl;
+    int choice;
+    cin>>choice;
+    if(choice == 1) {
+        MyStack<char> check;
+        MyStack<string> operators;
+        vector<string> ans;
+
+        for (int i = 0; i < in.size(); ++i) {
+            if(in[i] == '(')
+                check.push(in[i]);
+            else if(in[i] == ')'){
+                if(check.top() == '('){
+                    check.pop();
+                }
+                else{
+                    check.push(in[i]);
+                }
             }
-            else{
-                while(!operators.empty() && priority[operators.top()] >= priority[itr]){
+        }
+        if(!check.empty()){
+            cout<<"INVALID EXPRESSION!!"<<endl;
+            return 0;
+        }
+        for (auto &itr: v) {
+            if (itr == "+" || itr == "-" || itr == "*" || itr == "/") {
+                if (operators.empty()) {
+                    operators.push(itr);
+                } else {
+                    while (!operators.empty() && priority[operators.top()] >= priority[itr]) {
+                        ans.emplace_back(operators.top());
+                        operators.pop();
+                    }
+                    operators.push(itr);
+                }
+            } else if (itr == "(") {
+                operators.push(itr);
+            } else if (itr == ")") {
+                while (operators.top() != "(") {
                     ans.emplace_back(operators.top());
                     operators.pop();
                 }
-                operators.push(itr);
-            }
-        }
-        else if(itr == "("){
-            operators.push(itr);
-        }
-        else if(itr == ")"){
-            while(operators.top() != "("){
-                ans.emplace_back(operators.top());
                 operators.pop();
+            } else {
+                ans.emplace_back(itr);
             }
+        }
+        while (!operators.empty()) {
+            ans.emplace_back(operators.top());
             operators.pop();
         }
-        else{
-            ans.emplace_back(itr);
+        for (int i = 0; i < ans.size(); ++i) {
+            cout << ans[i] << " ";
         }
+        cout << endl;
     }
-    while(!operators.empty()){
-        ans.emplace_back(operators.top());
-        operators.pop();
+    else if(choice == 2){
+        MyStack<string> st;
+        string tmp;
+        for(auto &itr:v){
+            if (itr == "+" || itr == "-" || itr == "*" || itr == "/") {
+                tmp = "(";
+                tmp += st.top();
+                st.pop();
+                tmp += itr;
+                tmp += st.top();
+                st.pop();
+                tmp += ")";
+                st.push(tmp);
+            }
+            else{
+                st.push(itr);
+            }
+        }
+        cout<<st.top()<<endl;
     }
-    for (int i = 0; i < ans.size(); ++i) {
-        cout<<ans[i]<<" ";
-    }
-    cout<<endl;
-
     return 0;
 }
