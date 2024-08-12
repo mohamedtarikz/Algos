@@ -29,6 +29,7 @@ namespace stl {
             a = new type[capacity];
         }
         void pop(){
+            assert(elements > 0);
             elements--;
         }
         type top(){
