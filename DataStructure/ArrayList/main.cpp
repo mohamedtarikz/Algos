@@ -21,8 +21,8 @@ int main() {
         }
     }
     cout<<"Primes till "<<n<<": \n";
-    for (int i = 0; i < v.size(); i++) {
-        cout<<v[i]<<" ";
+    for (auto itr:v) {
+        cout<<itr<<" ";
     }
     cout<<endl;
     return 0;
