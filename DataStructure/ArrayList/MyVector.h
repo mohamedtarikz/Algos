@@ -20,27 +20,21 @@ template <typename t> class MyVector {
         arr = tmp;
     }
 public:
-//    class Iterator{
-//        t* current_ptr;
-//    public:
-//        Iterator(t* ptr = &arr[0]):current_ptr(ptr){}
-//        t& operator*(){return *current_ptr;}
-//        Iterator& operator++(){++current_ptr; return *this;}
-//        bool operator!=(const Iterator& other){return current_ptr != other.current_ptr;}
-//    };
-    MyVector(){
-        elements = 0;
-        capacity = 10;
+    class Iterator{
+        t* current_ptr;
+    public:
+        Iterator(t* ptr = &arr[0]):current_ptr(ptr){}
+        t& operator*(){return *current_ptr;}
+        Iterator& operator++(){++current_ptr; return *this;}
+        bool operator!=(const Iterator& other){return current_ptr != other.current_ptr;}
+    };
+    MyVector():elements(0),capacity(10){
         arr = new t[capacity];
     }
-    MyVector(int init_size){
-        elements = init_size;
-        capacity = init_size;
+    MyVector(int init_size):elements(init_size), capacity(init_size){
         arr = new t[init_size];
     }
-    MyVector(int init_size, int val){
-        elements = init_size;
-        capacity = init_size;
+    MyVector(int init_size, int val):elements(init_size), capacity(init_size){
         arr = new t[init_size];
         for (int i = 0; i < init_size; ++i) {
             arr[i] = val;
@@ -84,12 +78,12 @@ public:
     t& operator[](int index){
         return arr[index];
     }
-//    Iterator begin(){
-//        return &arr[0];
-//    }
-//    Iterator end(){
-//        return &arr[elements];
-//    }
+    Iterator begin(){
+        return &arr[0];
+    }
+    Iterator end(){
+        return &arr[elements];
+    }
     ~MyVector(){
         delete[] arr;
     }
