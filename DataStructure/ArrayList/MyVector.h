@@ -1,7 +1,3 @@
-//
-// Created by moham on 9/1/2024.
-//
-
 #ifndef ARRAYLIST_MYVECTOR_H
 #define ARRAYLIST_MYVECTOR_H
 
