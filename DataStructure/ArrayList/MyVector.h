@@ -3,9 +3,10 @@
 
 #include "assert.h"
 
-template <typename t> class MyVector {
+template <typename t> class MyVector
+{
     int elements, capacity;
-    static t* arr;
+    t* arr;
     void expand(){
         capacity *= 2;
         t *tmp = new t[capacity];
@@ -19,7 +20,7 @@ public:
     class Iterator{
         t* current_ptr;
     public:
-        Iterator(t* ptr = &arr[0]):current_ptr(ptr){}
+        Iterator(t* ptr):current_ptr(ptr){}
         t& operator*(){return *current_ptr;}
         Iterator& operator++(){++current_ptr; return *this;}
         bool operator!=(const Iterator& other){return current_ptr != other.current_ptr;}
@@ -61,7 +62,7 @@ public:
     void push_back(t val){
         if (elements == capacity)
             expand();
-        arr[++elements] = val;
+        arr[elements++] = val;
     }
     void pop_back(){
         assert(elements > 0);
