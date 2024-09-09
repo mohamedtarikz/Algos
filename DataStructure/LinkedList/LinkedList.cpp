@@ -59,10 +59,17 @@ template<typename T>
 void LinkedList<T>::erase(int index) {
     assert(index >= 0 && index < count);
 
-    auto tmp = getNode(index-1);
-    auto nextNode = tmp->next->next;
-    delete tmp->next;
-    tmp->next = nextNode;
+    if(index) {
+        auto tmp = getNode(index - 1);
+        auto nextNode = tmp->next->next;
+        delete tmp->next;
+        tmp->next = nextNode;
+    }
+    else{
+        auto tmp = head->next;
+        delete head;
+        head = tmp;
+    }
 }
 
 template<typename T>
