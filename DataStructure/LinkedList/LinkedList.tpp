@@ -28,31 +28,36 @@ bool LinkedList<T>::empty() {
 
 template<typename T>
 void LinkedList<T>::append(T val) {
-    auto* newNode = new Node<T>(val);
-
-    if(head == nullptr){
-        head = newNode;
+    if(count == 0){
+        head = new Node<T>(val);
+        tail = head;
     }
-    tail->next = newNode;
-    tail = newNode;
+    else {
+        tail->next = new Node<T>(val);
+        tail = tail->next;
+    }
+    count++;
 }
 
 template<typename T>
 void LinkedList<T>::insert(int index, T val) {
     assert(index >= 0 && index < count);
-    Node<T> newNode(val);
+
     if(index) {
         Node<T>* tmp = head;
         for (int i = 0; i < index - 1; ++i) {
             tmp = tmp->next;
         }
-        newNode.next = tmp->next;
-        tmp->next = &newNode;
+        auto tempNext = tmp->next;
+        tmp->next = new Node<T>(val);
+        tmp->next->next = tempNext;
     }
     else{
-        newNode.next = head;
-        head = &newNode;
+        auto newNode = new Node<T>(val);
+        newNode->next = head;
+        head = newNode;
     }
+    count++;
 }
 
 template<typename T>
@@ -70,6 +75,7 @@ void LinkedList<T>::erase(int index) {
         delete head;
         head = tmp;
     }
+    count--;
 }
 
 template<typename T>
