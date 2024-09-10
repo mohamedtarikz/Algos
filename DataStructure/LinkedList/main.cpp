@@ -13,8 +13,11 @@ int main() {
     }
     cout<<endl;
     linkedList.erase(14);
+    linkedList.erase(4);
     linkedList.erase(0);
-    linkedList.insert(0,1);
+    linkedList.insert(0,10);
+    linkedList.insert(3,20);
+    linkedList.insert(4,1);
     for (int i = 0; i < linkedList.size(); ++i) {
         cout<<linkedList[i]<<" ";
     }
