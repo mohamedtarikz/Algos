@@ -32,7 +32,7 @@ public:
         return head;
     }
     iterator end(){
-        return head->next;
+        return tail->next;
     }
     int size();
 };
