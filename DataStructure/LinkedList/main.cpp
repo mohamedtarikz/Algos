@@ -28,8 +28,8 @@ int main() {
     }
     cout<<endl;
     linkedList.sort([](int a, int b){return a > b;});
-    for (auto itr : linkedList) {
-        cout<<itr<<" ";
+    for (int i = 0; i < linkedList.size(); ++i) {
+        cout<<linkedList[i]<<" ";
     }
     cout<<endl;
     return 0;

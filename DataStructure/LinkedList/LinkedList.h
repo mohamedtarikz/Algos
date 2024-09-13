@@ -13,6 +13,7 @@ class LinkedList {
     int count;
     Node<T>* head;
     Node<T>* tail;
+
     Node<T>* getNode(int index){
         assert(index < count);
         auto tmp = head;
@@ -21,6 +22,7 @@ class LinkedList {
         }
         return tmp;
     }
+
 public:
     class Iterator{
         Node<T>* ptr;
@@ -30,13 +32,16 @@ public:
         Iterator& operator++(){return ptr->next;}
         bool operator!=(const Iterator& other){return ptr != other.ptr;}
     };
+
     LinkedList(){
         count = 0;
         head = tail = nullptr;
     }
+
     bool empty(){
         return count == 0;
     }
+
     void append(T val){
         if(count == 0){
             head = new Node<T>(val);
@@ -48,6 +53,7 @@ public:
         }
         count++;
     }
+
     void insert(int index, T val){
         assert(index >= 0 && index < count);
 
@@ -67,6 +73,7 @@ public:
         }
         count++;
     }
+
     void erase(int index){
         assert(index >= 0 && index < count);
 
@@ -83,6 +90,7 @@ public:
         }
         count--;
     }
+
     void sort(bool(*comp)(T a, T b) = [](T a, T b){return a < b;}){
         auto outer = head;
         for (int i = 0; i < count; ++i) {
@@ -98,18 +106,22 @@ public:
             outer = outer->next;
         }
     }
+
     T& operator[](int index){
         assert(index >= 0 && index < count);
 
         auto tmp = getNode(index);
         return tmp->value;
     }
+
     Iterator begin(){
         return head;
     }
+
     Iterator end(){
         return tail->next;
     }
+
     int size(){
         return count;
     }
