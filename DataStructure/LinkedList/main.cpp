@@ -22,5 +22,15 @@ int main() {
         cout<<linkedList[i]<<" ";
     }
     cout<<endl;
+    linkedList.sort();
+    for (int i = 0; i < linkedList.size(); ++i) {
+        cout<<linkedList[i]<<" ";
+    }
+    cout<<endl;
+    linkedList.sort([](int a, int b){return a > b;});
+    for (auto itr : linkedList) {
+        cout<<itr<<" ";
+    }
+    cout<<endl;
     return 0;
 }
