@@ -115,6 +115,4 @@ public:
     }
 };
 
-#include "LinkedList.tpp"
-
 #endif //LINKEDLIST_LINKEDLIST_H
