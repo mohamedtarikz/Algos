@@ -6,7 +6,7 @@
 #define LINKEDLIST_NODE_H
 
 template<typename T>
-struct Node {
+struct Node {//Node for LinkedList
     T value;
     Node<T>* next;
     Node(T value){
