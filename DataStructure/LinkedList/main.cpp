@@ -22,12 +22,30 @@ int main() {
         cout<<linkedList[i]<<" ";
     }
     cout<<endl;
+//    cout<<"h"<<endl;
+    linkedList.undo();
+//    cout<<"e"<<endl;
+    linkedList.undo();
+//    cout<<"r"<<endl;
+    linkedList.undo();
+//    cout<<"e"<<endl;
+    for (int i = 0; i < linkedList.size(); ++i) {
+        cout<<linkedList[i]<<" ";
+    }
+    cout<<endl;
     linkedList.sort();
     for (int i = 0; i < linkedList.size(); ++i) {
         cout<<linkedList[i]<<" ";
     }
     cout<<endl;
+    linkedList.undo();
+    for (int i = 0; i < linkedList.size(); ++i) {
+        cout<<linkedList[i]<<" ";
+    }
+    cout<<endl;
+//    cout<<"here"<<endl;
     linkedList.sort([](int a, int b){return a > b;});
+//    cout<<"there"<<endl;
     for (int i = 0; i < linkedList.size(); ++i) {
         cout<<linkedList[i]<<" ";
     }
