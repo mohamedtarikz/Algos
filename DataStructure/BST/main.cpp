@@ -19,5 +19,7 @@ int main() {
         bst.erase(x);
     }
     bst.print(Order::postOrder);
+
+    cout<<bst.traverse()<<endl;
     return 0;
 }

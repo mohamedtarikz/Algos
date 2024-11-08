@@ -55,7 +55,20 @@ class BST {
         post_Order(node->right);
         std::cout<<node->val<<" ";
     }
+
 public:
+
+    int traverse(Node<T>* node = nullptr, bool isFirst = true){
+        if(isFirst){
+            node = root;
+        }
+        if(node == nullptr){
+            return 0;
+        }
+        int ret = traverse(node->left, false) + traverse(node->right, false);
+        return ret + 1;
+    }
+
     BST(){
         count = 0;
         root = nullptr;
@@ -123,14 +136,29 @@ public:
         }
         count--;
         if(root->val == val){
-            auto tmpNode = root->right;
-            auto fixNode = root->right;
-            while(tmpNode->left != nullptr){
-                tmpNode = tmpNode->left;
+            if(root->left == nullptr && root->right == nullptr){
+                delete root;
             }
-            tmpNode->left = root->left;
-            delete root;
-            root = fixNode;
+            else if(root->left == nullptr){
+                auto tmpNode = root->right;
+                delete root;
+                root = tmpNode;
+            }
+            else if(root->right == nullptr){
+                auto tmpNode = root->left;
+                delete root;
+                root = tmpNode;
+            }
+            else{
+                auto tmpNode = root->right;
+                T tmpVal;
+                while(tmpNode->left != nullptr){
+                    tmpNode = tmpNode->left;
+                }
+                tmpVal = tmpNode->val;
+                erase(tmpVal);
+                root->val = tmpVal;
+            }
             return;
         }
         auto tmp = root;
@@ -165,13 +193,13 @@ public:
             }
             else{
                 auto tmpNode = tmp->left->right;
-                auto fixNode = tmp->left->right;
+                T tmpVal;
                 while(tmpNode->left != nullptr){
                     tmpNode = tmpNode->left;
                 }
-                tmpNode->left = tmp->left->left;
-                delete tmp->left;
-                tmp->left = fixNode;
+                tmpVal = tmpNode->val;
+                erase(tmpVal);
+                tmp->left->val = tmpVal;
             }
         }
         else{
@@ -191,13 +219,13 @@ public:
             }
             else{
                 auto tmpNode = tmp->right->right;
-                auto fixNode = tmp->right->right;
+                T tmpVal;
                 while(tmpNode->left != nullptr){
                     tmpNode = tmpNode->left;
                 }
-                tmpNode->left = tmp->right->left;
-                delete tmp->right;
-                tmp->right = fixNode;
+                tmpVal = tmpNode->val;
+                erase(tmpVal);
+                tmp->right->val = tmpVal;
             }
         }
     }
@@ -212,6 +240,7 @@ public:
         else{
             pre_Order(root);
         }
+        std::cout<<std::endl;
     }
 };
 
