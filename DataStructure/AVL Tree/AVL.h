@@ -19,7 +19,7 @@ class AVL {
         return hLeft - hRight;
     }
 
-    void rotateLeft(Node<T>* node){
+    void rotateLeft(Node<T>* node, bool dir = true){
         auto parent = node;
         auto child = node->right;
 
@@ -30,8 +30,12 @@ class AVL {
         }
         node->left = node->parent;
         auto temp = node->parent->parent;
-        if(node->parent->parent)
-            node->parent->parent->right = node;
+        if(node->parent->parent) {
+            if (dir)
+                node->parent->parent->right = node;
+            else
+                node->parent->parent->left = node;
+        }
         node->parent->parent = node;
         node->parent = temp;
 
@@ -43,7 +47,7 @@ class AVL {
         child->height = 1 + std::max((child->left != nullptr ? child->left->height : -1), (child->right != nullptr ? child->right->height : -1));
     }
 
-    void rotateRight(Node<T>* node){
+    void rotateRight(Node<T>* node, bool dir = true){
         auto parent = node;
         auto child = node->left;
 
@@ -54,8 +58,12 @@ class AVL {
         }
         node->right = node->parent;
         auto temp = node->parent->parent;
-        if(node->parent->parent)
-            node->parent->parent->left = node;
+        if(node->parent->parent) {
+            if (dir)
+                node->parent->parent->left = node;
+            else
+                node->parent->parent->right = node;
+        }
         node->parent->parent = node;
         node->parent = temp;
 
@@ -136,7 +144,7 @@ public:
         auto temp = root;
         while(true){
             if(val > temp->val){
-                temp->height = 1 + std::max(temp->height, (temp->right != nullptr ? temp->right->height + 1 : -1));
+                temp->height = std::max(temp->height, (temp->right != nullptr ? temp->right->height + 2 : 1));
                 if(temp->right == nullptr){
                     temp->right = new Node<T>(val, temp);
                     break;
@@ -144,7 +152,7 @@ public:
                 temp = temp->right;
             }
             else{
-                temp->height = 1 + std::max(temp->height, (temp->left != nullptr ? temp->left->height + 1 : -1));
+                temp->height = std::max(temp->height, (temp->left != nullptr ? temp->left->height + 2 : 1));
                 if(temp->left == nullptr){
                     temp->left = new Node<T>(val, temp);
                     break;
@@ -161,7 +169,7 @@ public:
                     rotateRight(temp);
                 }
                 else{
-                    rotateLeft(temp->left);
+                    rotateLeft(temp->left, false);
                     rotateRight(temp);
                 }
             }
@@ -170,7 +178,7 @@ public:
                     rotateLeft(temp);
                 }
                 else{
-                    rotateRight(temp->right);
+                    rotateRight(temp->right, false);
                     rotateLeft(temp);
                 }
             }
@@ -178,13 +186,13 @@ public:
         }
     }
 
-    void erase(T val){
+    void erase(T val, bool is_erase = true){
         auto temp = search(val);
         if(temp == nullptr){
             throw std::invalid_argument("value not present");
         }
 
-        count--;
+        count -= is_erase;
         if(root->val == val){
             if(root->left == nullptr && root->right == nullptr){
                 delete root;
@@ -208,7 +216,7 @@ public:
                     parent = parent->left;
                 }
                 tmpVal = parent->val;
-                erase(parent->val);
+                erase(parent->val, false);
                 root->val = tmpVal;
             }
         }
@@ -238,7 +246,7 @@ public:
                         child = child->left;
                     }
                     tmpVal = child->val;
-                    erase(tmpVal);
+                    erase(tmpVal, false);
                     parent->left->val = tmpVal;
                 }
             }
@@ -266,34 +274,33 @@ public:
                         child = child->left;
                     }
                     tmpVal = child->val;
-                    erase(tmpVal);
+                    erase(tmpVal, false);
                     parent->right->val = tmpVal;
                 }
             }
         }
 
-        //Re-balance the tree
-        while(temp != nullptr){
-            int heightDiff = calcHeightDiff(temp);
-            if(heightDiff == 2){
-                if(calcHeightDiff(temp->left) >= 0){
-                    rotateRight(temp);
+        if(is_erase) {
+            //Re-balance the tree
+            while (temp != nullptr) {
+                int heightDiff = calcHeightDiff(temp);
+                if (heightDiff == 2) {
+                    if (calcHeightDiff(temp->left) >= 0) {
+                        rotateRight(temp);
+                    } else {
+                        rotateLeft(temp->left, false);
+                        rotateRight(temp);
+                    }
+                } else if (heightDiff == -2) {
+                    if (calcHeightDiff(temp->right) <= 0) {
+                        rotateLeft(temp);
+                    } else {
+                        rotateRight(temp->right, false);
+                        rotateLeft(temp);
+                    }
                 }
-                else{
-                    rotateLeft(temp->left);
-                    rotateRight(temp);
-                }
+                temp = temp->parent;
             }
-            else if(heightDiff == -2){
-                if(calcHeightDiff(temp->right) <= 0){
-                    rotateLeft(temp);
-                }
-                else{
-                    rotateRight(temp->right);
-                    rotateLeft(temp);
-                }
-            }
-            temp = temp->parent;
         }
     }
 
